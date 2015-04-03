@@ -1,0 +1,11 @@
+[Unit]
+Description=PasTmon Sensor
+After=pastmon-web-discovery@1.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i
+ExecStart=/bin/bash -c "/usr/bin/docker start -a pastmon-sensor%i || /usr/bin/docker run --name pastmon-sensor%i --net=host --cap-add=NET_ADMIN gbevan/pastmonsensor \"$(etcdctl get /services/website/pastmon-web@1)\""
+ExecStop=/usr/bin/docker stop pastmon-sensor%i
+
+[X-Fleet]
+Conflicts=pastmon-*@*.service

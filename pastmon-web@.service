@@ -1,0 +1,18 @@
+[Unit]
+Description=PasTmon Web Server App
+
+[Service]
+ExecStartPre=-/usr/bin/docker stop pastmon-web%i
+
+# If deleting this persistent volume container, use `docker rm -v ...` - otherwise you end up with orphaned volumes
+ExecStartPre=-/usr/bin/docker create -v /var/lib/postgresql -v /var/run/postgresql --name pastmon-db busybox
+
+ExecStart=/bin/bash -c "/usr/bin/docker start -a pastmon-web%i || /usr/bin/docker run --name pastmon-web%i --volumes-from pastmon-db --net=host --cap-add=NET_ADMIN gbevan/pastmonweb"
+# Example with options:
+#   ExecStart=/bin/bash -c "/usr/bin/docker start -a pastmon-web%i || /usr/bin/docker run --name pastmon-web%i --volumes-from pastmon-db --net=host --cap-add=NET_ADMIN gbevan/pastmonweb 'dbport=5432; webport=8080' port 80 or port 443 ..."
+
+ExecStop=/usr/bin/docker stop pastmon-web%i
+
+[X-Fleet]
+MachineMetadata=frontend
+#MachineID=...  # from /etc/machine-id
