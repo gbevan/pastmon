@@ -13,7 +13,7 @@ On your frontend node:
     $ git clone https://github.com/gbevan/pastmon.git
     $ cd pastmon
 
-Edit (or create new) pastmon-web@.service, substituting appropriate X-Fleet conditionals:
+Edit (or create new) ``pastmon-web@.service``, substituting appropriate X-Fleet conditionals:
 
     [X-Fleet]
     MachineMetadata=frontend
@@ -32,7 +32,7 @@ You can also start PasTmon sensor containers on your other CoreOS hosts:
 (the 1..5 tells fleet to deploy 5 containers numbered 1 through 5 - so subsitute the number of
 remaining nodes in your CoreOS cluster to deploy to.)
 
-These should auto discover your instance of pastmon-web@1 running in the cluster, via etcd.
+These should auto discover your instance of ``pastmon-web@1`` running in the cluster, via etcd.
 
 Point your browser at http://your-front-end-host:8080, default user/password is admin/admin.
 
@@ -41,11 +41,11 @@ Other start options are (default values shown):
     dbport=5432
     webport=8080
 
-These can be added to the `docker run ...` command in the pastmon-web@.service unit file (see that file for examples).
-Also, if you change the dbport default, then you must update the respective value in pastmon-web-discovery@.service unit file,
+These can be added to the `docker run ...` command in the ``pastmon-web@.service`` unit file (see that file for examples).
+Also, if you change the dbport default, then you must update the respective value in ``pastmon-web-discovery@.service`` unit file,
 so it can inform other pastmon sensors in the cluster.
 
-The pastmon-web@service unit will create a docker container called pastmon-db, this is to
+The ``pastmon-web@service`` unit will create a docker container called pastmon-db, this is to
 provide a persistent database volume (allowing future upgardes of the PasTmon web container
 without loosing your data).
 
@@ -58,15 +58,18 @@ Yes.  You just need a recent version of docker installed, and run the container 
 
 Create the persistent db data volume container:
 
-    $ docker create -v /var/lib/postgresql -v /var/run/postgresql --name pastmon-db busybox
+    $ docker create -v /var/lib/postgresql -v /var/run/postgresql \
+        --name pastmon-db busybox
 
 Run PasTmon Web Service:
 
-    $ docker run --name pastmon-web%i --volumes-from pastmon-db --net=host --cap-add=NET_ADMIN gbevan/pastmonweb
+    $ docker run --name pastmon-web%i --volumes-from pastmon-db \
+        --net=host --cap-add=NET_ADMIN gbevan/pastmonweb
 
 Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
 
-    $ docker run --name pastmon-sensor%i --net=host --cap-add=NET_ADMIN gbevan/pastmonsensor "dbhost=....; dbport=5432"
+    $ docker run --name pastmon-sensor%i --net=host --cap-add=NET_ADMIN \
+        gbevan/pastmonsensor "dbhost=....; dbport=5432"
 
 ### Latest vs Version
 
