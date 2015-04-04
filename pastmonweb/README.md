@@ -25,7 +25,16 @@ or you can place your version locally (per node) in the local.conf file, like th
     [Service]
     PTAG=0.16
 
-Use MachineID to bind the web service to a specific frontend or use MachineMetadata to prefer a tagged node.
+Also, set the ``MachineMetadata`` tag or ``MachineID`` in the ``[X-Fleet]`` section of the pastmon-web
+unit file:
+
+    [X-Fleet]
+    MachineMetadata=frontend
+    #MachineID=...  # from /etc/machine-id
+
+Use ``MachineID`` to bind the web service to a specific frontend or use MachineMetadata to prefer a tagged node.
+
+Submit the unit files and start the web service:
 
     $ fleetctl submit pastmon-*.service
 
