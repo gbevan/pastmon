@@ -4,7 +4,12 @@ BindsTo=pastmon-web@%i.service
 After=pastmon-web@%i.service
 
 [Service]
-ExecStart=/bin/sh -c "while true; do etcdctl set /services/website/pastmon-web@%i 'dbhost=\"%H\"; dbport=5432' --ttl 60; sleep 45; done"
+ExecStart=/bin/sh -c "while true; \
+    do \
+      etcdctl set /services/website/pastmon-web@%i 'dbhost=\"%H\"; dbport=5432' --ttl 60; \
+      sleep 45; \
+    done"
+
 ExecStop=/usr/bin/etcdctl rm /services/website/pastmon-web@%i
 
 [X-Fleet]
