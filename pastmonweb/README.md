@@ -6,7 +6,7 @@ Part of the [PasTmon](http://pastmon.sourceforge.net) Project.
 ### Passive Application Monitoring for all containers running on a CoreOS host.
 
 Provides a image for the PasTmon Web Front-end (including it's own Sensor) and a
-Sensor only image.
+[Sensor](https://registry.hub.docker.com/u/gbevan/pastmonsensor/) only image.
 
 On your frontend node:
 
@@ -17,7 +17,7 @@ Edit the unit files ``pastmon-(web|sensor)@.service`` to choose your required ve
 
     [Service]
     Environment=PTAG=0.16  # Docker image tag version e.g. latest, 0.16, etc...
-    EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows overide per node
+    EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows override per node
 
 or you can place your version locally (per node) in the local.conf file, like this:
 
