@@ -13,11 +13,17 @@ On your frontend node:
     $ git clone https://github.com/gbevan/pastmon.git
     $ cd pastmon
 
-Edit (or create new) ``pastmon-web@.service``, substituting appropriate X-Fleet conditionals:
+Edit the unit files ``pastmon-(web|sensor)@.service`` to choose your required version:
 
-    [X-Fleet]
-    MachineMetadata=frontend
-    #MachineID=...  # from /etc/machine-id
+    [Service]
+    Environment=PTAG=0.16  # Docker image tag version e.g. latest, 0.16, etc...
+    EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows overide per node
+
+or you can place your version locally (per node) in the local.conf file, like this:
+
+    # /etc/systemd/system/pastmon.service.d/local.conf
+    [Service]
+    PTAG=0.16
 
 Use MachineID to bind the web service to a specific frontend or use MachineMetadata to prefer a tagged node.
 
@@ -76,3 +82,30 @@ Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
 Currently there is only the latest available image, tracking the PasTmon Git Master head.
 Later, as new releases emerge from the PasTmon project, fixed version images will be made available.
 So for now this is an experimental release.
+
+### Removing the docker containers after fleetctl destroy
+
+The fleetctl destroy command will not remove the docker containers (due to use of the
+docker --name parameter on the run directives).  This will remove all pastmon-sensor*
+containers from all nodes in the CoreOS cluster:
+
+    fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
+      xargs -i@ ssh @ "docker ps -a | \
+      grep -e 'pastmon-sensor' | \
+      sed 's/^.*[ \t]\(pastmon-.*\)/\1/' | \
+      xargs -i% docker rm %"
+
+To remove the pastmon-web container and image
+
+    docker rm pastmon-web1
+
+To remove all pastmon images from all nodes:
+
+    fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
+      | xargs -i@ ssh @ "docker images | \
+      grep -e 'pastmon' | \
+      awk '{ printf \"%s:%s\n\",\$1,\$2;}' | \
+      xargs -i% docker rmi % "
+
+Only remove the pastmon-db container if you really want to delete the pastmon
+database.
