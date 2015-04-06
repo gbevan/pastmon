@@ -24,7 +24,10 @@ fi
 
 if [ "$dbport" != "" ]
 then
-  sed -i "s/port = 5432/port = $dbport/" /etc/postgresql/9.3/main/postgresql.conf
+  sed -i \
+    -e "s/port = 5432/port = $dbport/" \
+    -e "s/max_connections = .*/max_connections = 10000/" \
+    /etc/postgresql/9.3/main/postgresql.conf
   sed -i \
     -e "s?[/ ]*\\(port = \\).*?\\1\"$dbport\";?" \
     /usr/local/pastmon/etc/pastmon.conf

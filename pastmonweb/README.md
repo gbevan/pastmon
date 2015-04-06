@@ -40,6 +40,8 @@ Submit the unit files and start the web service:
 
     $ fleetctl start pastmon-web@1.service pastmon-web-discovery@1.service
 
+Point your browser at http://your-front-end-host:8080, default user/password is admin/admin.
+
 You can also start PasTmon sensor containers on your other CoreOS hosts:
 
     $ fleetctl start pastmon-sensor@{1..5}.service
@@ -48,8 +50,6 @@ You can also start PasTmon sensor containers on your other CoreOS hosts:
 remaining nodes in your CoreOS cluster to deploy to.)
 
 These should auto discover your instance of ``pastmon-web@1`` running in the cluster, via etcd.
-
-Point your browser at http://your-front-end-host:8080, default user/password is admin/admin.
 
 Other start options are (default values shown):
 
@@ -88,6 +88,9 @@ Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
 
 ### Removing the docker containers after fleetctl destroy
 
+    fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service pastmon-web@1.service
+    fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
+
 The fleetctl destroy command will not remove the docker containers (due to use of the
 docker --name parameter on the run directives).  This will remove all pastmon-sensor*
 containers from all nodes in the CoreOS cluster:
@@ -111,4 +114,6 @@ To remove all pastmon images from all nodes:
       xargs -i% docker rmi % "
 
 Only remove the pastmon-db container if you really want to delete the pastmon
-database.
+database:
+
+    docker rm pastmon-db
