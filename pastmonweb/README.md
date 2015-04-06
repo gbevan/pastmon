@@ -95,7 +95,7 @@ containers from all nodes in the CoreOS cluster:
     fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
       xargs -i@ ssh @ "docker ps -a | \
       grep -e 'pastmon-sensor' | \
-      sed 's/^.*[ \t]\(pastmon-.*\)/\1/' | \
+      awk '{ print \$1; }' | \
       xargs -i% docker rm %"
 
 To remove the pastmon-web container and image
