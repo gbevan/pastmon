@@ -86,12 +86,6 @@ Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
     $ docker run --name pastmon-sensor%i --net=host --cap-add=NET_ADMIN \
         gbevan/pastmonsensor "dbhost=....; dbport=5432"
 
-### Latest vs Version
-
-Currently there is only the latest available image, tracking the PasTmon Git Master head.
-Later, as new releases emerge from the PasTmon project, fixed version images will be made available.
-So for now this is an experimental release.
-
 ### Removing the docker containers after fleetctl destroy
 
 The fleetctl destroy command will not remove the docker containers (due to use of the
