@@ -9,7 +9,7 @@
 #   -y | --yes assume yes you want to do this
 #
 
-OPTS=`getopt -o vh --long volume,help -- "$@"`
+OPTS=`getopt -o yvh --long yes,volume,help -- "$@"`
 if [ $? != 0 ]
 then
   echo "Terminating..." >&2
