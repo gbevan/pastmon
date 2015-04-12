@@ -1,5 +1,6 @@
 [Unit]
 Description=PasTmon Web Server App
+Wants=pastmon-web-discovery@.service
 
 [Service]
 Environment=PTAG=latest  # Docker image tag version e.g. latest, 0.16, etc...

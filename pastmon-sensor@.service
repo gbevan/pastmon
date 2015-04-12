@@ -1,6 +1,7 @@
 [Unit]
 Description=PasTmon Sensor
 After=pastmon-web-discovery@1.service
+Requires=pastmon-web-discovery@1.service
 
 [Service]
 Environment=PTAG=latest  # Docker image tag version e.g. latest, 0.16, etc...

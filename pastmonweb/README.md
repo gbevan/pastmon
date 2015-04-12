@@ -40,7 +40,11 @@ Submit the unit files and start the web service:
 
     $ fleetctl start pastmon-web@1.service pastmon-web-discovery@1.service
 
-Point your browser at http://your-front-end-host:8080, default user/password is admin/admin.
+Follow progress of the web unit using:
+
+    $ fleetctl journal -f pastmon-web@1.service
+
+When ready, point your browser at http://your-front-end-host:8080, default user/password is admin/admin.
 
 You can also start PasTmon sensor containers on your other CoreOS hosts:
 
@@ -116,4 +120,7 @@ To remove all pastmon images from all nodes:
 Only remove the pastmon-db container if you really want to delete the pastmon
 database:
 
-    docker rm pastmon-db
+    docker rm -v pastmon-db
+
+(the -v is important to prevent orphaned persistent volumes in docker -
+currently these are difficult to clean up.)
