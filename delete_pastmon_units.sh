@@ -73,19 +73,19 @@ fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service p
 echo "Destroying pastmon template units"
 fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
 
-sleep 5
+sleep 10
 
 echo "Removing pastmon-sensor docker containers"
 fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
       xargs -i@ ssh @ "docker ps -a | \
       grep -e 'pastmon-sensor' | \
       awk '{ print \$1; }' | \
-      xargs -i% docker rm %"
+      xargs -i% docker rm -f %"
 
 echo "Removing pastmon-web docker container"
 docker rm pastmon-web1
 
-sleep 5
+sleep 10
 
 echo "Removing pastmon docker images"
 fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
@@ -97,5 +97,5 @@ fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
 if [ $VOLUME == true ]
 then
   echo "Removing pastmon-db persistent database volume (and container)"
-  docker rm -v pastmon-db
+  docker rm -f -v pastmon-db
 fi

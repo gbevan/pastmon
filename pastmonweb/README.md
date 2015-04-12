@@ -92,35 +92,11 @@ Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
 
 ### Removing the docker containers after fleetctl destroy
 
-    $ fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service pastmon-web@1.service
-    $ fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
+    $ ./delete_pastmon_units.sh -h | -v | -y
 
-The fleetctl destroy command will not remove the docker containers (due to use of the
-docker --name parameter on the run directives).  This will remove all pastmon-sensor*
-containers from all nodes in the CoreOS cluster:
+Options are:
 
-    $ fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
-      xargs -i@ ssh @ "docker ps -a | \
-      grep -e 'pastmon-sensor' | \
-      awk '{ print \$1; }' | \
-      xargs -i% docker rm %"
+    -h - help
+    -v - delete the persistent database volume (pastmon-db)
+    -y - assume yes to go ahead and do this without prompting
 
-To remove the pastmon-web container and image
-
-    $ docker rm pastmon-web1
-
-To remove all pastmon images from all nodes:
-
-    $ fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
-      | xargs -i@ ssh @ "docker images | \
-      grep -e 'pastmon' | \
-      awk '{ printf \"%s:%s\n\",\$1,\$2;}' | \
-      xargs -i% docker rmi % "
-
-Only remove the pastmon-db container if you really want to delete the pastmon
-database:
-
-    $ docker rm -v pastmon-db
-
-(the -v is important to prevent orphaned persistent volumes in docker -
-currently these are difficult to clean up.)

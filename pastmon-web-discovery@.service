@@ -1,7 +1,6 @@
 [Unit]
 Description=Announce PasTmon Web Server App
 BindsTo=pastmon-web@%i.service
-After=pastmon-web@%i.service
 
 [Service]
 ExecStart=/bin/sh -c "while true; \
