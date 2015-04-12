@@ -1,10 +1,11 @@
 [Unit]
 Description=PasTmon Sensor
-After=pastmon-web-discovery@1.service
-Requires=pastmon-web-discovery@1.service
+After=pastmon-web-discovery@%i.service
+Requires=pastmon-web-discovery@%i.service
 
 [Service]
-Environment=PTAG=latest  # Docker image tag version e.g. latest, 0.16, etc...
+# Docker image tag version e.g. latest, 0.16, etc...
+Environment=PTAG=latest
 EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows overide per node
 
 ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i
