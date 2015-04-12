@@ -73,6 +73,8 @@ fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service p
 echo "Destroying pastmon template units"
 fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
 
+sleep 5
+
 echo "Removing pastmon-sensor docker containers"
 fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
       xargs -i@ ssh @ "docker ps -a | \
@@ -82,6 +84,8 @@ fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
 
 echo "Removing pastmon-web docker container"
 docker rm pastmon-web1
+
+sleep 5
 
 echo "Removing pastmon docker images"
 fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
