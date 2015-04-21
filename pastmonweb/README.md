@@ -82,12 +82,12 @@ Create the persistent db data volume container:
 
 Run PasTmon Web Service:
 
-    $ docker run --name pastmon-web%i --volumes-from pastmon-db \
+    $ docker run --name pastmon-web --volumes-from pastmon-db \
         --net=host --cap-add=NET_ADMIN gbevan/pastmonweb
 
 Run any needed PasTmon Sensors (on nodes other than PasTmon Web Services):
 
-    $ docker run --name pastmon-sensor%i --net=host --cap-add=NET_ADMIN \
+    $ docker run --name pastmon-sensor1 --net=host --cap-add=NET_ADMIN \
         gbevan/pastmonsensor "dbhost=....; dbport=5432"
 
 ### Removing the docker containers after fleetctl destroy
