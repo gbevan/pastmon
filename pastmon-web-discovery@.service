@@ -1,6 +1,7 @@
 [Unit]
 Description=Announce PasTmon Web Server App
 BindsTo=pastmon-web@%i.service
+After=pastmon-web@%i.service
 
 [Service]
 ExecStart=/bin/sh -c "while true; \
@@ -10,6 +11,7 @@ ExecStart=/bin/sh -c "while true; \
     done"
 
 ExecStop=/usr/bin/etcdctl rm /services/website/pastmon-web@%i
+Restart=always
 
 [X-Fleet]
 MachineOf=pastmon-web@%i.service

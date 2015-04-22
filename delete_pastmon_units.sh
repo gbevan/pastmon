@@ -21,10 +21,11 @@ eval set -- "$OPTS"
 Usage() {
   cat >&2 <<EOF
 Usage:
-  ./delete_pastmon_units.sh [ -v | --volume ]
+  ./delete_pastmon_units.sh [ -h | --help  ] [ -v | --volume ] [ -y | --yes ]
 
--v | --volume option also deletes persistent data volume (aka the database)
--y | --yes assume yes you want to do this.
+-h | --help This help
+-v | --volume Option also deletes persistent data volume (aka the database)
+-y | --yes Assume yes you want to do this.
 EOF
   exit 1
 }
@@ -67,35 +68,40 @@ then
   fi
 fi
 
-echo "Destroying pastmon instance units"
-fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service pastmon-web@1.service
+for PHASE in 1 2
+do
+  echo "======================================================================="
+  echo "PHASE: $PHASE"
+  echo "Destroying pastmon instance units"
+  fleetctl destroy pastmon-sensor@{1..5}.service pastmon-web-discovery@1.service pastmon-web@1.service
 
-echo "Destroying pastmon template units"
-fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
+  echo "Destroying pastmon template units"
+  fleetctl destroy pastmon-sensor@.service pastmon-web-discovery@.service pastmon-web@.service
 
-sleep 10
+  sleep 10
 
-echo "Removing pastmon-sensor docker containers"
-fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
-      xargs -i@ ssh @ "docker ps -a | \
-      grep -e 'pastmon-sensor' | \
-      awk '{ print \$1; }' | \
-      xargs -i% docker rm -f %"
+  echo "Removing pastmon-sensor docker containers"
+  fleetctl list-machines | tail -n +2 | awk '{print $2;}' | \
+        xargs -i@ ssh @ "docker ps -a | \
+        grep -e 'pastmon-sensor' | \
+        awk '{ print \$1; }' | \
+        xargs -i% docker rm -f %"
 
-echo "Removing pastmon-web docker container"
-docker rm pastmon-web1
+  echo "Removing pastmon-web docker container"
+  docker rm -f pastmon-web1
 
-sleep 10
+  sleep 10
 
-echo "Removing pastmon docker images"
-fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
-      | xargs -i@ ssh @ "docker images | \
-      grep -e 'pastmon' | \
-      awk '{ printf \"%s:%s\n\",\$1,\$2;}' | \
-      xargs -i% docker rmi % "
+  echo "Removing pastmon docker images"
+  fleetctl list-machines | tail -n +2 | awk '{print $2;}' \
+        | xargs -i@ ssh @ "docker images | \
+        grep -e 'pastmon' | \
+        awk '{ printf \"%s:%s\n\",\$1,\$2;}' | \
+        xargs -i% docker rmi % "
 
-if [ $VOLUME == true ]
-then
-  echo "Removing pastmon-db persistent database volume (and container)"
-  docker rm -f -v pastmon-db
-fi
+  if [ $VOLUME == true ]
+  then
+    echo "Removing pastmon-db persistent database volume (and container)"
+    docker rm -f -v pastmon-db
+  fi
+done

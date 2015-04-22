@@ -1,6 +1,7 @@
 [Unit]
 Description=PasTmon Sensor
 After=pastmon-web-discovery@1.service
+Wants=pastmon-web-discovery@1.service
 
 [Service]
 # Docker image tag version e.g. latest, 0.16, etc...
@@ -19,6 +20,7 @@ ExecStart=/bin/bash -c "\
         \"$(etcdctl get /services/website/pastmon-web@1)\""
 
 ExecStop=/usr/bin/docker stop pastmon-sensor%i
+Restart=always
 
 [X-Fleet]
 Conflicts=pastmon-*@*.service
