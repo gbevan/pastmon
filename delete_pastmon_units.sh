@@ -88,7 +88,7 @@ do
         xargs -i% docker rm -f %"
 
   echo "Removing pastmon-web docker container"
-  docker rm -f pastmon-web1
+  docker rm -f pastmon-web1 2>/dev/null
 
   sleep 10
 
