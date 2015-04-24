@@ -6,8 +6,8 @@ Description=PasTmon Sensor
 Environment=PTAG=latest
 EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows overide per node
 
-ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i
-ExecStartPre=-/usr/bin/docker rm pastmon-sensor%i
+ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i || true
+ExecStartPre=-/usr/bin/docker rm pastmon-sensor%i || true
 
 #/usr/bin/docker start -a pastmon-sensor%i ||
 ExecStart=/bin/bash -c "\
@@ -17,7 +17,7 @@ ExecStart=/bin/bash -c "\
         gbevan/pastmonsensor:$PTAG \
         \"$(etcdctl get /services/website/pastmon-web@1)\""
 
-ExecStop=-/usr/bin/docker stop pastmon-sensor%i
+ExecStop=-/usr/bin/docker stop pastmon-sensor%i || true
 Restart=always
 RestartSec=15000
 #StartLimitInterval=0
