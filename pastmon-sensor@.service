@@ -17,9 +17,10 @@ ExecStart=/bin/bash -c "\
         gbevan/pastmonsensor:$PTAG \
         \"$(etcdctl get /services/website/pastmon-web@1)\""
 
-ExecStop=/usr/bin/docker stop pastmon-sensor%i
+ExecStop=-/usr/bin/docker stop pastmon-sensor%i
 Restart=always
 RestartSec=15000
+StartLimitInterval=0
 
 [X-Fleet]
 Conflicts=pastmon-*@*.service
