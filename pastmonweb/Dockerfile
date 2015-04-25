@@ -18,7 +18,7 @@ RUN \
         libglib2.0-dev libpcap-dev libdbi-dev libdbd-pgsql flex \
         sysstat postgresql bison packaging-dev tree nginx php5 \
         php5-pgsql php5-fpm libpcre3-dev sysstat tcpdump \
-        fonts-dejavu fonts-liberation php5-gd
+        fonts-dejavu fonts-liberation php5-gd cron
 
     # transfig texlive-latex-base for documentation
     # libphp-jpgraph is ancient - install manually from jpgraph.net

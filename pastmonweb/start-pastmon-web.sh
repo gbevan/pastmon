@@ -14,6 +14,9 @@ echo `date` "Starting Syslog"
 perl -i -pe 'BEGIN{undef $/;}s/^daemon.*xconsole/#xconsole removed by start-pastmon-web.sh\n/smg' /etc/rsyslog.d/50-default.conf
 /etc/init.d/rsyslog start
 
+echo `date` "Starting Cron"
+/usr/sbin/cron
+
 if [ ! -d /var/lib/postgresql/9.3/main ]
 then
     mkdir -p /var/lib/postgresql/9.3/main
