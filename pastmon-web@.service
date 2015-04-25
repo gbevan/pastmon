@@ -1,5 +1,8 @@
 [Unit]
 Description=PasTmon Web Server App
+After=docker.service
+Requires=docker.service
+Wants=pastmon-web-discovery@%i.service
 
 [Service]
 # Docker image tag version e.g. latest, 0.16, etc...
@@ -32,7 +35,7 @@ ExecStart=/bin/bash -c "/usr/bin/docker start -a pastmon-web%i || \
 
 ExecStop=-/usr/bin/docker stop pastmon-web%i
 Restart=always
-RestartSec=15
+RestartSec=10
 StartLimitInterval=0
 
 [X-Fleet]
