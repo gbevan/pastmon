@@ -19,8 +19,8 @@ ExecStart=/bin/bash -c "\
 
 ExecStop=-/bin/bash -c "/usr/bin/docker stop pastmon-sensor%i || true"
 Restart=always
-RestartSec=15000
-#StartLimitInterval=0
+RestartSec=15
+StartLimitInterval=0
 
 [X-Fleet]
 Conflicts=pastmon-*@*.service

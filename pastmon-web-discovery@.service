@@ -12,7 +12,7 @@ ExecStart=/bin/sh -c "while true; \
 
 ExecStop=/usr/bin/etcdctl rm /services/website/pastmon-web@%i
 Restart=always
-RestartSec=15000
+RestartSec=15
 StartLimitInterval=0
 
 [X-Fleet]
