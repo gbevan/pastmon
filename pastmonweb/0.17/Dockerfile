@@ -9,7 +9,7 @@ MAINTAINER Graham Bevan "graham.bevan@ntlworld.com"
 ENV DEBIAN_FRONTEND=noninteractive \
   LANG=C \
   LC_ALL=C \
-  TAG=0.17.2-r1
+  TAG=0.17.3
 
 RUN \
     apt-get update && \
