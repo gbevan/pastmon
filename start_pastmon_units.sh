@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 fleetctl submit pastmon-*.service
 fleetctl start pastmon-web@1.service pastmon-web-discovery@1.service

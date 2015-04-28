@@ -15,7 +15,7 @@ ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i
 ExecStartPre=-/usr/bin/docker rm pastmon-sensor%i
 
 # Force failure of the unit if pastmon-web service is not registered by its sidekick
-ExecStartPre=etcdctl get /services/website/pastmon-web@1
+ExecStartPre=/usr/bin/etcdctl get /services/website/pastmon-web@1
 
 ExecStart=/bin/bash -c "\
     /usr/bin/docker run --rm \
