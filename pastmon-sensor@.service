@@ -3,6 +3,7 @@ Description=PasTmon Sensor
 After=docker.service
 Requires=docker.service
 After=pastmon-web-discovery@1.service
+Requires=pastmon-web-discovery@1.service
 
 [Service]
 # Docker image tag version e.g. latest, 0.16, etc...
