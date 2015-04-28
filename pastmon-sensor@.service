@@ -2,8 +2,9 @@
 Description=PasTmon Sensor
 After=docker.service
 Requires=docker.service
-After=pastmon-web-discovery@1.service
-Requires=pastmon-web-discovery@1.service
+
+#After=pastmon-web-discovery@1.service
+#Requires=pastmon-web-discovery@1.service # wont even start units, as on other nodes
 
 [Service]
 # Docker image tag version e.g. latest, 0.16, etc...
@@ -12,6 +13,9 @@ EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows ov
 
 ExecStartPre=-/usr/bin/docker stop pastmon-sensor%i
 ExecStartPre=-/usr/bin/docker rm pastmon-sensor%i
+
+# Force failure of the unit if pastmon-web service is not registered by its sidekick
+ExecStartPre=etcdctl get /services/website/pastmon-web@1
 
 ExecStart=/bin/bash -c "\
     /usr/bin/docker run --rm \
