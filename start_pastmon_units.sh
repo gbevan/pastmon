@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
-fleetctl submit pastmon-*.service
-fleetctl start pastmon-web@1.service pastmon-web-discovery@1.service
+RT="--request-timeout=30"
 
-fleetctl start pastmon-sensor@{1..5}.service
+fleetctl $RT submit pastmon-*.service
+fleetctl $RT start pastmon-web@1.service pastmon-web-discovery@1.service
+
+fleetctl $RT start pastmon-sensor@{1..5}.service
