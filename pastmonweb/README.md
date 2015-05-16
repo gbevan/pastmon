@@ -2,10 +2,9 @@ PasTmon Web App with Sensor Docker Image for CoreOS
 ===================================================
 
 Part of the [PasTmon](http://pastmon.sourceforge.net) Project.
-<center>
+
 ![PasTmon Web and Sensors deployed across all nodes of a CoreOS Cluster](http://www.reapingzombies4funandprofit.com/blog/wp-content/uploads/2015/04/D20150404_PasTmon_CoreOS.jpg "PasTmon Web and Sensors deployed across all nodes of a CoreOS Cluster")
 See article: [PasTmon Passive Application Response Time Monitoring a CoreOS Cluster](http://www.reapingzombies4funandprofit.com/blog/archives/59)
-</center>
 
 ### Passive Application Monitoring for all containers running on a CoreOS host.
 
