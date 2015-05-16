@@ -4,11 +4,11 @@ PasTmon Web App with Sensor Docker Image for CoreOS
 Part of the [PasTmon Passive Application Response Time Monitor Project](http://pastmon.sourceforge.net).
 
 ![PasTmon Web and Sensors deployed across all nodes of a CoreOS Cluster](http://www.reapingzombies4funandprofit.com/blog/wp-content/uploads/2015/04/D20150404_PasTmon_CoreOS.jpg "PasTmon Web and Sensors deployed across all nodes of a CoreOS Cluster")
-See article: [PasTmon Passive Application Response Time Monitoring a CoreOS Cluster](http://www.reapingzombies4funandprofit.com/blog/archives/59)
+See [reapingzombies4funandprofit](http://www.reapingzombies4funandprofit.com/blog/) blog article: [PasTmon Passive Application Response Time Monitoring a CoreOS Cluster](http://www.reapingzombies4funandprofit.com/blog/archives/59)
 
 ### Passive Application Monitoring for all containers running on a CoreOS host.
 
-Provides a image for the PasTmon Web Front-end (including it's own Sensor) and a
+Provides an image for the PasTmon Web Front-end (including it's own Sensor) and a
 [Sensor](https://registry.hub.docker.com/u/gbevan/pastmonsensor/) only image.
 
 On your frontend node:
@@ -19,14 +19,14 @@ On your frontend node:
 Edit the unit files ``pastmon-(web|sensor)@.service`` to choose your required version:
 
     [Service]
-    Environment=PTAG=0.16  # Docker image tag version e.g. latest, 0.16, etc...
+    Environment=PTAG=0.17  # Docker image tag version e.g. latest, 0.17, etc...
     EnvironmentFile=-/etc/systemd/system/pastmon.service.d/local.conf    # Allows override per node
 
 or you can place your version locally (per node) in the local.conf file, like this:
 
     # /etc/systemd/system/pastmon.service.d/local.conf
     [Service]
-    PTAG=0.16
+    PTAG=0.17
 
 Also, set the ``MachineMetadata`` tag or ``MachineID`` in the ``[X-Fleet]`` section of the pastmon-web
 unit file:
